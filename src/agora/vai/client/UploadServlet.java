@@ -42,10 +42,10 @@ public class UploadServlet extends HttpServlet{
 			    InputStream stream = item.openStream();
 			    nameFile = item.getName(); 
 			    writer.println("File field " + name + " with file name "
-			            + nameFile + " detected.");
+			            + nameFile + " detected." + "<br>");
 			    //writer.println(Streams.asString(stream));
 			    byte[] bytes = IOUtils.toByteArray(stream);
-			    UploadToGae ugae = new UploadToGae("gaedistributedsystem.appspot.com");
+			    UploadToGae ugae = new UploadToGae("gae-distributed.appspot.com");
                 ugae.writeToFile(nameFile, bytes);
                 ugae.setCache(nameFile, bytes);
 			}

@@ -2,7 +2,7 @@
 <%@ page import="agora.vai.server.BucketControl"%>
 
 <%
-BucketControl bc = new BucketControl("gaedistributedsystem.appspot.com");
+BucketControl bc = new BucketControl("gae-distributed.appspot.com");
 String fileName = "teste";
 Boolean cache = false;
 Boolean bucket = false;

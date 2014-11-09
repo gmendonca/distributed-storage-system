@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -52,26 +53,31 @@ public class BenchServletBlob extends HttpServlet{
 		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 
 		
-		Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(request);
+		Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+		//Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(request);
+		List<BlobKey> blobList = blobs.get("file");
 		
 		ArrayList<Thread> list = new ArrayList<Thread>();
 		int numThread = 4;
 		int count = 0;
 		
-			//iter = upload.getItemIterator(request);
-			
-			iter = blobs.entrySet().iterator();
-			
+		long startTime = System.currentTimeMillis();
+
+			//iter = blobs.entrySet().iterator();
+			iter = blobList.iterator();
 			while (iter.hasNext()) {
-				Map.Entry pairs = (Map.Entry)iter.next();
-				String nameFile = (String) pairs.getKey();
-				BlobKey blobKey = (BlobKey) pairs.getValue();
+				//Map.Entry pairs = (Map.Entry)iter.next();
+				//String nameFile = (String) pairs.getKey();
+				//BlobKey blobKey = (BlobKey) pairs.getValue();
+				BlobKey blobKey = (BlobKey) iter.next();
 				BlobstoreInputStream in = new BlobstoreInputStream(blobKey); 
-				
+				BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
+				BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(blobKey);
+				String fileName = blobInfo.getFilename();
 				//byte[] b = blobInfo.getContentType().getBytes(Charset.forName("UTF-8"));
 				byte[] b= IOUtils.toByteArray(in);
 			    Thread thread = ThreadManager.createBackgroundThread(
-			    		new BenchThread("gaedistributedsystem.appspot.com",nameFile,b));
+			    		new BenchThread("gae-distributed.appspot.com",fileName,b));
 				thread.start();
 				list.add(thread);
 				count++;
@@ -99,8 +105,12 @@ public class BenchServletBlob extends HttpServlet{
 				count = 0;
 				list = new ArrayList<Thread>();
 			}
+		long stopTime = System.currentTimeMillis();
+		long elapsedTime = stopTime - startTime;
+		    
+		writer.println("<br>" + "Time elapsed: " + elapsedTime + " ms");
 		
-		writer.println("<br><br><br><form action=\"Teste.jsp\"><input type=\"submit\" value=\"Go Back\"/></form>");
+		writer.println("<br><br><br><form action=\"http://small.gae-distributed.appspot.com/Teste.jsp\"><input type=\"submit\" value=\"Go Back\"/></form>");
 		writer.println("</body>");
 		writer.println("</html>");
 	}

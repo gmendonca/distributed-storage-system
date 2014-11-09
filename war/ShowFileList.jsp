@@ -4,7 +4,7 @@
 <%@ page import="com.google.appengine.tools.cloudstorage.ListItem"%>
 
 <%
-BucketControl bc = new BucketControl("gaedistributedsystem.appspot.com");
+BucketControl bc = new BucketControl("gae-distributed.appspot.com");
 ListResult list = bc.getListFiles();
 %>
 

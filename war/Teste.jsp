@@ -36,6 +36,7 @@
 		<input type="text" name="description" />
     	<input type="submit" value="Read File"/>
 	</form>
+	<br><br><br>
 	<form action="<%= blobstoreService.createUploadUrl("/BenchServletBlob") %>" method="post" enctype="multipart/form-data">
     	<input type="file" name="file" multiple/>
     	<input type="submit" value="Benchmark"/>
