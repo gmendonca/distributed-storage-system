@@ -20,7 +20,11 @@ public class BenchThread implements Runnable{
 	    private String fileName;
 	    
 	    public BenchThread(String bucketName, String fileName, byte[] content) {
-	    	this.gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
+	    	this.gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
+	     	.initialRetryDelayMillis(10)
+	    	.retryMaxAttempts(10)
+	    	.totalRetryPeriodMillis(1500000)
+	    	.build());
 	        this.gcsFileName = new GcsFilename(bucketName, fileName);
 	        this.content = content;
 	        this.fileName = fileName;
