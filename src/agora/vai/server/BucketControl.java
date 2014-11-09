@@ -5,6 +5,8 @@ import java.nio.ByteBuffer;
 
 import com.google.appengine.api.appidentity.AppIdentityService;
 import com.google.appengine.api.appidentity.AppIdentityServiceFactory;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsInputChannel;
@@ -20,6 +22,7 @@ public class BucketControl {
 	private GcsService gcsService;
     private String bucketName;
     private GcsFilename gcsFileName;
+    private MemcacheService syncCache;
 
     public BucketControl(String bucketName){
          this.gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
@@ -28,6 +31,7 @@ public class BucketControl {
     	.totalRetryPeriodMillis(15000)
     	.build());
          this.bucketName = bucketName;
+         this.syncCache = MemcacheServiceFactory.getMemcacheService();
     }
 
     public void writeToFile(String fileName, byte[] content) throws IOException {
@@ -92,5 +96,19 @@ public class BucketControl {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public Boolean checkMemCache(String fileName){
+		Object o = syncCache.get(fileName);
+		return (o != null);
+	}
+	
+	public void removeAllMemCache(){
+		syncCache.clearAll();
+	}
+	
+	public byte[] readFromCache(String fileName){
+		Object o = syncCache.get(fileName);
+		return (byte[])o;
 	}
 }

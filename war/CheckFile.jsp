@@ -4,25 +4,35 @@
 <%
 BucketControl bc = new BucketControl("gaedistributedsystem.appspot.com");
 String fileName = "teste";
-Boolean result = false;
+Boolean cache = false;
+Boolean bucket = false;
 if(request.getParameter("description") != null){
 	fileName = request.getParameter("description");
-	result = bc.checkFile(fileName);
+	cache = bc.checkMemCache(fileName);
+	if(!cache) bucket = bc.checkFile(fileName);
 }
 %>
 
 <html>
   <head>
     <title>Distributed Storage System</title>
-    
+  </head>  
   <body>
 
     <h1>Distributed Storage System</h1>
     
 <%
-	if(result) {
+	if(cache) {
 %>
-	<p><%= fileName %> Founded!</p>
+	<p><%= fileName %> Founded in cache!</p>
+<%
+	}
+%>
+
+<%
+	if(bucket) {
+%>
+	<p><%= fileName %> Founded in bucket!</p>
 <%
 	}
 %>

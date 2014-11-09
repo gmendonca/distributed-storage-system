@@ -12,10 +12,14 @@ ListResult list = bc.getListFiles();
 <html>
   <head>
     <title>Distributed Storage System</title>
-    
+  </head>  
   <body>
-
     <h1>Distributed Storage System</h1>
+    <br><br>
+	<form action="Teste.jsp" >
+    	<input type="submit" value="Go Back"/>
+	</form>
+	<br><br>
 
 <%
 	while (list.hasNext()){

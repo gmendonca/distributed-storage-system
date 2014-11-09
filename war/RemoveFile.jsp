@@ -14,11 +14,11 @@ if(request.getParameter("description") != null){
 <html>
   <head>
     <title>Distributed Storage System</title>
-    
+	</head>  
   <body>
 
     <h1>Distributed Storage System</h1>
-    
+
 <%
 	if(result) {
 %>

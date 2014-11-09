@@ -3,6 +3,9 @@ package agora.vai.server;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import com.google.appengine.api.memcache.Expiration;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsInputChannel;
@@ -15,6 +18,7 @@ public class UploadToGae {
 	private GcsService gcsService;
     private String bucketName;
     private GcsFilename gcsFileName;
+    private MemcacheService syncCache;
 
     public UploadToGae(String bucketName){
          this.gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
@@ -23,6 +27,7 @@ public class UploadToGae {
     	.totalRetryPeriodMillis(15000)
     	.build());
          this.bucketName = bucketName;
+         this.syncCache = MemcacheServiceFactory.getMemcacheService();
     }
 
     public void writeToFile(String fileName, byte[] content) throws IOException {
@@ -42,5 +47,11 @@ public class UploadToGae {
          }
          return result.array();
     }
+    
+    public void setCache(String fileName, byte[] content){
+    	if(content.length > 100*1024)
+    		return;
+		syncCache.put(fileName, content, Expiration.byDeltaSeconds(86400));
+	}
 
 }

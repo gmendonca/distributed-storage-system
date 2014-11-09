@@ -1,0 +1,8 @@
+<backends>
+  <backend name="small">
+    <class>B1</class>
+    <options>
+      <public>true</public>
+    </options>
+  </backend>
+</backends>

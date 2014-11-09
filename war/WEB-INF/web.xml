@@ -10,10 +10,34 @@
     <servlet-name>UploadServlet</servlet-name>
     <servlet-class>agora.vai.client.UploadServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>BenchServlet</servlet-name>
+    <servlet-class>agora.vai.client.BenchServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>BenchServletBlob</servlet-name>
+    <servlet-class>agora.vai.client.BenchServletBlob</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Serve</servlet-name>
+    <servlet-class>agora.vai.client.Serve</servlet-class>
+  </servlet>
   
   <servlet-mapping>
     <servlet-name>UploadServlet</servlet-name>
     <url-pattern>/UploadServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BenchServlet</servlet-name>
+    <url-pattern>/BenchServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BenchServletBlob</servlet-name>
+    <url-pattern>/BenchServletBlob</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Serve</servlet-name>
+    <url-pattern>/Serve</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
