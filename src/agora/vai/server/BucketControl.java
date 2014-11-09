@@ -71,6 +71,7 @@ public class BucketControl {
 		Boolean result = false;
 		try {
 			result = gcsService.delete(gcsFileName);
+			syncCache.delete(fileName);
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
