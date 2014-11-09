@@ -38,6 +38,7 @@
 	</form>
 	<br><br><br>
 	<form action="<%= blobstoreService.createUploadUrl("/BenchServletBlob") %>" method="post" enctype="multipart/form-data">
+    	Num of Threads :<input type="text" name="threads" />
     	<input type="file" name="file" multiple/>
     	<input type="submit" value="Benchmark"/>
 	</form>

@@ -57,8 +57,19 @@ public class BenchServletBlob extends HttpServlet{
 		//Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(request);
 		List<BlobKey> blobList = blobs.get("file");
 		
+		writer.println(blobs.get("threads"));
+		
+		if(request.getParameter("threads") != null){
+			writer.println(request.getParameter("threads"));
+		}
+		
+		
+		
 		ArrayList<Thread> list = new ArrayList<Thread>();
 		int numThread = 4;
+		if(request.getParameter("threads") != null){
+			numThread = Integer.parseInt(request.getParameter("threads"));
+		}
 		int count = 0;
 		
 		long startTime = System.currentTimeMillis();
